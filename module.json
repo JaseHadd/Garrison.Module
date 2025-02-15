@@ -1,0 +1,28 @@
+{
+  "$schema": "https://gist.github.com/JaseHadd/e089d8c696d3cacb62af7c218930d752/raw/fountry-vtt-module-schema.json",
+  "id": "pf2e-garrison",
+  "title": "Pf2e Garrison",
+  "description": "The Foundry module for the Garrison project, otherwise known as Garrison.Module",
+  "authors": [
+    {
+      "name": "Jase Haddleton",
+      "discord": "JaseHadd",
+      "url": "https://github.com/JaseHadd",
+      "flags": {}
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "version": "0.0.1",
+  "compatibility": {
+    "verified": "12"
+  },
+  "esmodules": [
+    "scripts/main.js"
+  ]
+}

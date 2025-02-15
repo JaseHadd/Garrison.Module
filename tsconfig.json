@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "types": [
+            "fvtt-types"
+        ],
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "strict": true
+    },
+
+    "include": ["src/**/*.ts", "vite.config.ts"],
+    "exclude": ["node_modules/*"]
+}

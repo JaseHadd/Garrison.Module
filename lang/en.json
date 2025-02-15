@@ -1,0 +1,11 @@
+{
+    "Pf2eGarrison": {
+        "LinkPlayers": {
+            "Title": "Link Players",
+            "Heading": "Link Players to Garrison",
+            "Description": "Choose which Adventure you are running, and then link players to their characters",
+            "Adventure": "Adventure",
+            "Action": "Make Go"
+        }
+    }
+}
