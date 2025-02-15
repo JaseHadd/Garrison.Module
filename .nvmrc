@@ -1,1 +1,7 @@
-v20.18.2
+v22.14.0
+
+# this file is a configuration file for nvm.sh, a nodejs version manager
+# you can find information about nvm.sh at https://github.com/nvm-sh.
+
+# the version is chosen as a recent LTS version of node.
+
