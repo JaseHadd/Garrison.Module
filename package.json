@@ -1,5 +1,5 @@
 {
-  "name": "pf2e-garrison",
+  "name": "garrison.module",
   "devDependencies": {
     "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main",
     "vite": "^6.1.0"

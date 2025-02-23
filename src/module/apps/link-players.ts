@@ -3,8 +3,8 @@ export class LinkPlayers extends FormApplication
     static get defaultOptions()
     {
         return foundry.utils.mergeObject(FormApplication.defaultOptions, {
-            title: "Pf2eGarrison.LinkPlayers.Title",
-            template: "modules/pf2e-garrison/templates/apps/link-players.hbs",
+            title: "Garrison.LinkPlayers.Title",
+            template: "modules/garrison/templates/apps/link-players.hbs",
             innerWidth: 400,
             innerHeight: "auto"
         });

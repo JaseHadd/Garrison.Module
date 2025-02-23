@@ -1,8 +1,10 @@
 {
   "$schema": "https://gist.github.com/JaseHadd/e089d8c696d3cacb62af7c218930d752/raw/fountry-vtt-module-schema.json",
-  "id": "pf2e-garrison",
-  "title": "Pf2e Garrison",
-  "description": "The Foundry module for the Garrison project, otherwise known as Garrison.Module",
+  "id": "garrison",
+  "title": "Garrison",
+  "description": "The Foundry module for the Garrison project",
+  "url": "https://github.com/JaseHadd/Garrison.Module/",
+  "manifest": "https://github.com/JaseHadd/Garrison.Module/blob/main/module.json",
   "authors": [
     {
       "name": "Jase Haddleton",
