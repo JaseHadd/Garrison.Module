@@ -4,7 +4,7 @@
   "title": "Garrison",
   "description": "The Foundry module for the Garrison project",
   "url": "https://github.com/JaseHadd/Garrison.Module/",
-  "manifest": "https://github.com/JaseHadd/Garrison.Module/blob/main/module.json",
+  "manifest": "https://raw.githubusercontent.com/JaseHadd/Garrison.Module/refs/heads/main/module.json",
   "authors": [
     {
       "name": "Jase Haddleton",
