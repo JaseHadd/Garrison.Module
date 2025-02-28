@@ -28,7 +28,7 @@ jobs:
         name: garrison.zip
         path: dist/
     - name: Generate install JSON
-      uses: actions/maxgfr/github-change-json@main
+      uses: maxgfr/github-change-json@main
       with:
         path: dist/module.json
         key: download
