@@ -30,7 +30,7 @@ jobs:
       run: |
         cd dist
         zip garrison.zip *
-      |
+        |
     - name: Upload build artifact
       uses: actions/upload-artifact@4.6.1
       with:
