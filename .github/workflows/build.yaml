@@ -27,8 +27,7 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v4.6.1
       with:
-        name: foundry module
+        name: garrison
         path: |
           dist/garrision.zip
-          dist/module.json
         
