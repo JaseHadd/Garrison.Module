@@ -2,3 +2,4 @@
 /pf2e-garrison.lock
 /scripts/*.js
 /scripts/*.js.map
+/dist

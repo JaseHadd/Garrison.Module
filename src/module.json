@@ -26,5 +26,8 @@
   },
   "esmodules": [
     "scripts/main.js"
+  ],
+  "styles": [
+    "styles/link-players.css"
   ]
 }
