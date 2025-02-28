@@ -22,10 +22,8 @@ jobs:
     - name: Run build
       run: pnpm run bundle
     - name: Archive dist
-      run: |
-        cd dist
-        zip garrison.zip *
-        |
+      working-directory: ./dist
+      run: zip garrison.zip *
     - name: Upload build artifact
       uses: actions/upload-artifact@v4.6.1
       with:
