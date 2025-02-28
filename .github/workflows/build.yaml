@@ -7,8 +7,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4.2.2
     - name: Install PNPM
       uses: pnpm/action-setup@v4
     - name: Setup Node.js environment
@@ -21,13 +19,9 @@ jobs:
       run: pnpm install
     - name: Run build
       run: pnpm run bundle
-    - name: Archive dist
-      working-directory: ./dist
-      run: zip garrison.zip *
     - name: Upload build artifact
       uses: actions/upload-artifact@v4.6.1
       with:
         name: garrison
-        path: |
-          dist/garrision.zip
+        path: dist/
         
