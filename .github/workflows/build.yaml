@@ -32,7 +32,7 @@ jobs:
         zip garrison.zip *
         |
     - name: Upload build artifact
-      uses: actions/upload-artifact@4.6.1
+      uses: actions/upload-artifact@v4.6.1
       with:
         name: dist/garrision.zip, dist/module.json
         
