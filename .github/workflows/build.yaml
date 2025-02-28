@@ -21,9 +21,20 @@ jobs:
       run: pnpm install
     - name: Run build
       run: pnpm run bundle
-    - name: Upload build artifact
+    - name: Upload bundle
+      id: bundle-upload-step
       uses: actions/upload-artifact@v4.6.1
       with:
-        name: garrison
+        name: garrison.zip
         path: dist/
-        
+    - name: Generate install JSON
+      uses: actions/maxgfr/github-change-json@main
+      with:
+        path: dist/module.json
+        key: download
+        value: ${{ steps.bundle-upload-step.outputs.artifact-id }}
+    - name: Upload install JSON
+      uses: actions/upload-artifact@v4.6.1
+      with:
+        name: module.json
+        path: dist/module.json
