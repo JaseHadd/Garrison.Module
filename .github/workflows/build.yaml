@@ -5,12 +5,34 @@ on:
     - main
 jobs:
   build:
+    strategy:
+      matrix:
+        pnpm-version: [10.5.2]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4.2.2
+    - name: Install PNPM
+      uses: pnpm/action-setup@v4
+      with:
+        version: ${{ matrix.pnpm-version }}
     - name: Setup Node.js environment
       uses: actions/setup-node@v4.2.0
       with:
         node-version-file: .nvmrc
         check-latest: true
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install
+    - name: Run build
+      run: pnpm run bundle
+    - name: Archive dist
+      run: |
+        cd dist
+        zip garrison.zip *
+      |
+    - name: Upload build artifact
+      uses: actions/upload-artifact@4.6.1
+      with:
+        name: dist/garrision.zip, dist/module.json
+        
