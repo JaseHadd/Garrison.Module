@@ -14,6 +14,3 @@ jobs:
       with:
         node-version-file: .nvmrc
         check-latest: true
-        cache: pnpm
-        cache-dependency-path: pnpm-lock.yaml
-        
