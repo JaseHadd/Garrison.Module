@@ -3,3 +3,5 @@
 /scripts/*.js
 /scripts/*.js.map
 /dist
+
+.DS_Store
