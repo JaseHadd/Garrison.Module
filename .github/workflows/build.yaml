@@ -32,17 +32,12 @@ jobs:
       with:
         path: dist/module.json
         key: download
-        value: ${{ steps.bundle-upload-step.outputs.artifact-id }}
-    - name: Upload install JSON
-      uses: actions/upload-artifact@v4.6.1
-      with:
-        name: module.json
-        path: dist/module.json
+        value: ${{ steps.bundle-upload-step.outputs.artifact-url }}
     - name: Update release
       uses: johnwbyrd/update-release@v1.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        files: dist/garrison.zip dist/module.json
+        files: dist/module.json
         release: unstable
         message: Latest unstable build
         prerelease: true
