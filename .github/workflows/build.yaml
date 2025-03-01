@@ -39,7 +39,7 @@ jobs:
         name: module.json
         path: dist/module.json
     - name: Update release
-      uses: johnwbyrd/update-release@@v1.0.0
+      uses: johnwbyrd/update-release@v1.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         files: dist/garrison.zip dist/module.json
