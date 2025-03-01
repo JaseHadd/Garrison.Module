@@ -10,8 +10,8 @@ export class Settings
     static registerSettings(): void
     {
         game.settings?.register('garrison', 'endpoint', {
-            name: 'Endpoint',
-            hint: "The Garrison endpoint to use. Only change this if you know what you're doing",
+            name: 'Garrison.Settings.Endpoint.Name',
+            hint: 'Garrison.Settings.Endpoint.Hint',
             scope: "world",
             config: true,
             type: String,
@@ -20,8 +20,8 @@ export class Settings
         });
 
         game.settings?.register('garrison', 'apiKey', {
-            name: 'API Key',
-            hint: 'Your API key, obtained from your Garrison server, do NOT share this.',
+            name: 'Garrison.Settings.ApiKey.Name',
+            hint: 'Garrison.Settings.ApiKey.Hint',
             scope: 'world',
             config: true,
             type: String,

@@ -36,7 +36,7 @@ Hooks.on('changeSidebarTab', tab => {
         image.style.maxHeight = '20px';
 
         $(linkButton).on('click', () => {
-            new LinkPlayers(null).render(true);
+            new LinkPlayers({}).render(true);
             return false;
         });
     
@@ -47,11 +47,3 @@ Hooks.on('changeSidebarTab', tab => {
         console.error('Unable to inject Link button');
     }
 });
-
-Hooks.on("chatMessage", (log, message, data) => {
-    if (message === "link")
-    {
-        const dialog = new LinkPlayers(null);
-        dialog.render(true);
-    }
-})
