@@ -37,4 +37,11 @@ jobs:
       uses: actions/upload-artifact@v4.6.1
       with:
         name: module.json
-        path: dist/module.json
+        path: dist/module.json- name: Update release
+    - uses: johnwbyrd/update-release@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: dist/garrison.zip dist/module.json
+        release: unstable
+        message: Latest unstable build
+        prerelease: true
