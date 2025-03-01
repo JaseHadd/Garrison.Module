@@ -20,7 +20,7 @@
             "Endpoint.Name": "Endpoint",
             "Endpoint.Hint": "The Garrison endpoint to use. Only change this if you know what you're doing.",
             "ApiKey.Name": "API Key",
-            "ApiKey.Hint": "Your API key, obtained from your Garrison server. Do NOT share this.",
+            "ApiKey.Hint": "Your API key, obtained from your Garrison server. Do NOT share this."
         }
     }
 }

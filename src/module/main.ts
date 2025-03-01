@@ -1,12 +1,18 @@
 import { LinkPlayers } from "./apps/link-players";
 import { Settings } from "./settings";
 import { id as moduleId } from "../module.json"
+import { ImageManager } from "./images";
 
 Hooks.on('init', () => {
     console.log('init');
 
     Settings.registerSettings();
     console.log(game.modules?.get(moduleId));
+});
+
+Hooks.on('ready', () => {
+    console.log("garrison | ready");
+    ImageManager.setup();
 });
 
 Hooks.on('changeSidebarTab', tab => {

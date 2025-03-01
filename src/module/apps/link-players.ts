@@ -1,4 +1,5 @@
 import { MaybePromise, GetDataReturnType } from "fvtt-types/utils";
+import { ImageManager } from "../images";
 
 interface PageData
 {
@@ -85,7 +86,7 @@ export class LinkPlayers extends Application
             this.render();
             break;
         case 'link':
-            await this.linkCharacters();
+            await this.linkCharacters().then(actors => actors.forEach(actor => ImageManager.downloadImages(actor)));
             break;
         }
     }
@@ -110,12 +111,27 @@ export class LinkPlayers extends Application
             const url = `${endpoint}/character/foundry/${character.id}/json`;
 
             promises.push(Promise.all([
-                    fetch(url).then(r => r.json()).then(r => JSON.stringify(r)),
+                    fetch(url)
+                    .then(r => r.json())
+                    .then(j => {
+                        j.img = "systems/pf2e/icons/default-icons/character.svg"
+                        j.prototypeToken.texture.src = "systems/pf2e/icons/default-icons/character.svg";
+                        j.flags = j.flags || {}
+                        j.flags.garrison = {
+                            garrisonId: character.id,
+                            lastDownload: new Date()
+                        }
+                        j.items = j.items.filter((i: any) => i.type !== 'effect');
+
+                        return j;
+                    })
+                    .then(r => JSON.stringify(r)),
                     Actor.create(data as any)])
-                .then(([json, actor]) =>
+                .then(async ([json, actor]) =>
                 {
-                    (actor as any).importFromJSON(json);
-                    return actor as Actor;
+                    const newActor = await (actor as any).importFromJSON(json);
+                    (newActor as any).effects?.clear();
+                    return newActor as Actor;
                 }));
         }
 

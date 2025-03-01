@@ -29,5 +29,6 @@
   ],
   "styles": [
     "styles/link-players.css"
-  ]
+  ],
+  "persistentStorage": true
 }
