@@ -49,6 +49,7 @@ export class ImageManager
 
         return Promise.all(targets.map(async t => fetch(`${t.url}`, { headers: headers })
                 .then(async r => t.bytes = await r.arrayBuffer())
+                .catch(e => console.warn(`unable to download ${t.name}: ${e}`))
                 .then(_ => t.file = new File([t.bytes!], t.fileName))
                 .then(_ => FilePicker.uploadPersistent(moduleId, t.dir, t.file!))
                 .then(_ => t.onFinish(`modules/${moduleId}/storage/${t.dir}/${t.fileName}`))));
