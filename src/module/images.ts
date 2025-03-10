@@ -1,5 +1,13 @@
 import { id as moduleId } from "../module.json"
 
+type CharacterLike = Actor | string;
+
+export enum ImageType
+{
+    Token = 'token',
+    Portrait = 'portrait'
+}
+
 export class ImageManager
 {
     static #portraits = 'portraits';
@@ -25,7 +33,34 @@ export class ImageManager
         this.#createStorage();
     }
 
-    static async downloadImages(actor: Actor)
+    static garrisonId(actor: CharacterLike): string
+    {
+        if (actor instanceof Actor)
+            return (actor as any).getFlag(moduleId, 'garrisonId');
+        else
+            return actor;
+    }
+
+    static imagePath(type: ImageType): string
+    {
+        return `modules/${moduleId}/storage/${type}s`;
+    }
+
+    static async ensureImage(actor: CharacterLike, type: ImageType)
+    {
+        return FilePicker.browse('data', this.imagePath(type))
+            .then(async result => {
+                for (const file of result.files)
+                {
+                    if (file.split('/').at(-1) === `${this.garrisonId(actor)}.webp`)
+                        return file;
+                }
+
+                return await this.downloadImage(actor, type);
+            });
+    }
+
+    static async downloadImage(actor: CharacterLike, type: ImageType)
     {
         const endpoint = game.settings?.get('garrison', 'endpoint');
         const apiKey = game.settings?.get('garrison', 'apiKey');
@@ -33,25 +68,27 @@ export class ImageManager
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json'
         };
-        const garrisonId: string = (actor as any).getFlag('garrison', 'garrisonId');
+        
+        const garrisonId = this.garrisonId(actor);
+
         const urlBase = `${endpoint}/character/foundry/${garrisonId}`;
 
-        const targets = ['token', 'portrait'].map(s => ({
-            name: s,
-            url: `${urlBase}/${s}`,
-            dir: `${s}s`,
+        const target = {
+            name: type,
+            url: `${urlBase}/${type}`,
+            dir: `${type}s`,
             fileName: `${garrisonId}.webp`,
             response: null as (Response | null),
             bytes: null as (ArrayBuffer | null),
-            file: null as (File | null),
-            onFinish: (path: string) => actor.update(s === 'portrait' ? { img: path } : { "prototypeToken.texture.src": path })
-        }));
+            file: null as (File | null)
+        }
 
-        return Promise.all(targets.map(async t => fetch(`${t.url}`, { headers: headers })
-                .then(async r => t.bytes = await r.arrayBuffer())
-                .catch(e => console.warn(`unable to download ${t.name}: ${e}`))
-                .then(_ => t.file = new File([t.bytes!], t.fileName))
-                .then(_ => FilePicker.uploadPersistent(moduleId, t.dir, t.file!))
-                .then(_ => t.onFinish(`modules/${moduleId}/storage/${t.dir}/${t.fileName}`))));
+        return fetch(target.url, { headers: headers })
+            .then(
+                async r => target.bytes = await r.arrayBuffer(),
+                error => { throw new Error(error); })
+            .then(_ => target.file = new File([target.bytes!], target.fileName))
+            .then(_ => FilePicker.uploadPersistent(moduleId, target.dir, target.file!, {}, { notify: false }))
+            .then(_ => `modules/${moduleId}/storage/${target.dir}/${target.fileName}`);
     }
 }

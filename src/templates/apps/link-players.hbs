@@ -2,53 +2,64 @@
     <h1>{{localize "Garrison.LinkPlayers.Heading"}}</h1>
     <p>{{localize "Garrison.LinkPlayers.Description"}}</p>
     <h2>{{localize "Garrison.LinkPlayers.Sections.ChooseAdventure"}}</h2>
-    <div class="link-adventure">
-        <select id="garrison-adventure">
-            {{#each adventures}}
-                <option value="{{id}}">{{name}}</option>
-            {{/each}}
-        </select>
-        <button type="button" data-action="select-adventure">
-            {{localize "Garrison.LinkPlayers.Actions.ChooseAdventure"}}
-        </button>
-    </div>
-    {{#if chosenAdventure}}
-        <h2>{{localize "Garrison.LinkPlayers.Sections.LinkPlayers"}}</h2>
-        <div class="link-players">
-            {{#each chosenAdventure.characters}}
-                <div class="link-cell" data-character-id="{{id}}">
-                    <div class="info">
-                        <div class="name">{{name}}</div>
-                        <div class="player">{{player}}</div>
-                    </div>
-                    <div class="pic"></div>
-                    <div class="input">
-                        {{#unless user}}
-                            <select name="foundry-user-{{id}}">
-                                {{#each @root/users}}
-                                    <option value="{{id}}">{{name}}</option>
-                                {{/each}}
-                            </select>
-                            <button type="button" data-action="select-player">
-                                {{localize "Garrison.LinkPlayers.Actions.ChoosePlayer"}}
-                            </button>
-                        {{else}}
-                            <select>
-                                <option>{{user.name}}</option>
-                            </select>
-                            <button type="button" data-action="unselect-player">
-                                {{localize "Garrison.LinkPlayers.Actions.UndoPlayer"}}
-                            </button>
-                        {{/unless}}
-                    </div>
-                </div>
-            {{/each}}
+    {{#unless loaded}}
+        <div class="loading">
+            <div class="spinner"><span class="fa-solid fa-spinner"></span></div>
+            <div class="message">{{localize "Garrison.LinkPlayers.Loading"}}</div>
         </div>
-    {{/if}}
-    <div class="actions">
-        <button type="button" data-action="link">
-            <i class="fa-solid fa-trophy"></i>
-            {{localize "Garrison.LinkPlayers.Actions.Save"}}
-        </button>
-    </div>
+    {{else}}
+        <div class="link-adventure">
+            <select id="garrison-adventure">
+                {{#each adventures}}
+                    <option value="{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+            <button type="button" data-action="select-adventure">
+                {{localize "Garrison.LinkPlayers.Actions.ChooseAdventure"}}
+            </button>
+        </div>
+        {{#if chosenAdventure}}
+            <h2>{{localize "Garrison.LinkPlayers.Sections.LinkPlayers"}}</h2>
+            <div class="link-players">
+                {{#each chosenAdventure.characters}}
+                    <div class="link-cell" data-character-id="{{id}}">
+                        <div class="info">
+                            <div class="name">{{name}}</div>
+                            <div class="player">{{player}}</div>
+                        </div>
+                        <div class="pic">
+                            {{#if portrait}}
+                                <img src="{{portrait}}">
+                            {{/if}}
+                        </div>
+                        <div class="input">
+                            {{#unless user}}
+                                <select name="foundry-user-{{id}}">
+                                    {{#each @root/users}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <button type="button" data-action="select-player">
+                                    {{localize "Garrison.LinkPlayers.Actions.ChoosePlayer"}}
+                                </button>
+                            {{else}}
+                                <select>
+                                    <option>{{user.name}}</option>
+                                </select>
+                                <button type="button" data-action="unselect-player">
+                                    {{localize "Garrison.LinkPlayers.Actions.UndoPlayer"}}
+                                </button>
+                            {{/unless}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+        <div class="actions">
+            <button type="button" data-action="link">
+                <i class="fa-solid fa-trophy"></i>
+                {{localize "Garrison.LinkPlayers.Actions.Save"}}
+            </button>
+        </div>
+    {{/unless }}
 </div>

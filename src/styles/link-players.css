@@ -1,9 +1,31 @@
 #garrison-link-form
 {
+    min-width: 650px;
     min-height: 500px;
 
     display: flex;
     flex-direction: column;
+
+    .loading
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        row-gap: 1em;
+
+        .spinner
+        {
+            animation: garrison_link-players_spin 2s linear infinite;
+            font-size: 5em;
+        }
+
+        .message
+        {
+            font-size: 2.5em;
+        }
+    }
 
     .link-adventure
     {
@@ -56,7 +78,25 @@
 
             > .pic
             {
-                height: 120px;
+                box-sizing: content-box;
+                display: flex;
+                width: 118px;
+                height: 118px;
+
+                align-items: center;
+                justify-content: center;
+                flex: 1 1 auto;
+
+                > img
+                {
+                    margin: auto;
+                    width: 100%;
+                    max-width: 100%;
+                    max-height: 100%;
+
+                    object-fit: contain;
+                    border-radius: 0;
+                }
             }
 
             > .input
@@ -78,5 +118,13 @@
     .actions
     {
         margin-top: auto;
+    }
+}
+
+@keyframes garrison_link-players_spin
+{
+    100%
+    {
+        transform: rotate(360deg);
     }
 }

@@ -1,11 +1,12 @@
 import { MaybePromise, GetDataReturnType } from "fvtt-types/utils";
-import { ImageManager } from "../images";
+import { ImageManager, ImageType } from "../images";
 
 interface PageData
 {
     'adventures': Adventure[]
     'chosenAdventure': Adventure | null | undefined
     'users': User[]
+    'loaded': boolean
 }
 
 interface Adventure
@@ -20,7 +21,9 @@ interface Character
     'id': string
     'name': string
     'player': string
-    'user': User | undefined
+    'user': User | undefined,
+    'portrait': string | undefined,
+    'token': string | undefined
 }
 
 interface ActorDocumentData
@@ -33,15 +36,38 @@ interface ActorDocumentData
 
 export class LinkPlayers extends Application
 {
-    data: PageData | undefined;
-
     static get defaultOptions()
     {
         return foundry.utils.mergeObject(Application.defaultOptions, {
             title: "Garrison.LinkPlayers.Title",
             template: "modules/garrison/templates/apps/link-players.hbs",
-            innerWidth: 500,
+            innerWidth: 650,
             innerHeight: 500
+        });
+    }
+
+    data: PageData;
+
+    constructor(options?: Partial<ApplicationOptions> | undefined)
+    {
+        super(options);
+
+        this.data = {
+            loaded: false,
+            adventures: [],
+            chosenAdventure: undefined,
+            users: Array.from(game.users ?? []).filter(u => u === game.user) as User[]
+        }
+
+        this.loadDataFromApi().then(d => {
+            this.data.adventures = d;
+            this.data.loaded = true;
+            this.render();
+
+            this.data.adventures.flatMap(a => a.characters).forEach(async character => {
+                character.portrait = await ImageManager.ensureImage(character.id, ImageType.Portrait);
+                this.render();
+            });
         });
     }
 
@@ -86,7 +112,12 @@ export class LinkPlayers extends Application
             this.render();
             break;
         case 'link':
-            await this.linkCharacters().then(actors => actors.forEach(actor => ImageManager.downloadImages(actor)));
+            await this.linkCharacters().then(actors => actors.forEach(async actor => {
+                actor.update({
+                    img: await ImageManager.ensureImage(actor, ImageType.Portrait),
+                    'prototypeToken.texture.src': await ImageManager.ensureImage(actor, ImageType.Token)
+                });
+            }));
             break;
         }
     }
@@ -151,20 +182,7 @@ export class LinkPlayers extends Application
 
     getData(options?: Partial<FormApplicationOptions> | undefined): MaybePromise<GetDataReturnType<FormApplication.FormApplicationData<FormApplicationOptions, unknown>>>
     {
-        if (!this.data) {
-            return this.loadDataFromApi().then(d => {
-                this.data = {
-                    adventures: d,
-                    chosenAdventure: null,
-                    users: Array.from(game.users!)?.filter(u => u !== game.user) as User[]
-                };
-                return this.data;
-            })
-        }
-        else
-        {
-            return this.data;
-        }
+        return this.data;
     }
 
     async loadDataFromApi(): Promise<Adventure[]>
